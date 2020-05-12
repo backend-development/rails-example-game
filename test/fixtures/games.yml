@@ -1,0 +1,22 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  game_state: lobby
+  word: internet
+  mask: ________
+  closed_at: 
+
+
+two:
+  game_state: white_won
+  word: refactoring
+  mask: refactoring
+  closed_at: 2001-01-01 21:27:27
+
+three:
+  game_state: waiting_for_white
+  word: javascript
+  mask: _a_a______
+  closed_at:
+  
+

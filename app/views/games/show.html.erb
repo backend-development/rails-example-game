@@ -1,0 +1,26 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Game state:</strong>
+  <%= @game.game_state %>
+</p>
+
+<p>
+  <strong>Word:</strong>
+  <%= @game.word %>
+</p>
+
+<p>
+  <strong>Mask:</strong>
+  <%= @game.mask %>
+</p>
+
+<p>
+  <strong>Closed at:</strong>
+  <%= @game.closed_at %>
+</p>
+
+
+
+<%= link_to 'Edit', edit_game_path(@game) %> |
+<%= link_to 'Back', games_path %>

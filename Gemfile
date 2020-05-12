@@ -49,3 +49,5 @@ end
 gem 'devise', '~> 4.7'
 
 gem 'devise-guests', '~> 0.7.0'
+
+gem 'aasm', '~> 5.0'

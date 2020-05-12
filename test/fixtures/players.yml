@@ -1,0 +1,33 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+game_one_player_white:
+  color: white
+  user: one
+  game: one 
+
+game_one_player_black:
+  color: black
+  user: two
+  game: one   
+
+game_two_player_white:
+  color: white
+  user: one
+  game: two 
+
+game_two_player_black:
+  color: black
+  user: two
+  game: two   
+
+game_three_player_white:
+  color: white
+  user: one
+  game: three 
+
+game_three_player_black:
+  color: black
+  user: two
+  game: three 
+   
+   
