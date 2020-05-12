@@ -68,3 +68,12 @@ time to add some seeds and fixtures:
     createdb hangman_development
     createdb hangman_test
     rails db:migrate
+
+
+## users
+
+    rails g controller static home
+    bundle add devise
+    rails g devise:install
+    rails g devise User
+    
