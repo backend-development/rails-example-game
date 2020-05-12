@@ -5,7 +5,9 @@ Rails.application.routes.draw do
     get 'logout', to: 'devise/sessions#destroy'
   end
   resources :users
-  get 'static/home'
-  # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
+
+  # dokku deploy checks http://dokku.viewdocs.io/dokku/deployment/zero-downtime-deploys/
+  get '/check.txt', to: proc { [200, {}, ['simple_check']] }
+  
   root to: 'games#index'
 end
