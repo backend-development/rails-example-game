@@ -6,9 +6,9 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 
-Vocabulary.create(word: 'javascript')
-Vocabulary.create(word: 'internet')
-Vocabulary.create(word: 'refactoring')
+%w[javascript internet refactoring stylesheet mediaquery hypertext domainname canvas webgl webvr flexbox].each do |w|
+  Vocabulary.create(word: w)
+end
 
 u1 = User.create(email: 'one@example.com', password: 'asecret', password_confirmation: 'asecret')
 u2 = User.create(email: 'two@example.com', password: 'asecret', password_confirmation: 'asecret')
