@@ -47,3 +47,5 @@ end
 # gem 'tzinfo-data', platforms: %i[mingw mswin x64_mingw jruby]
 
 gem 'devise', '~> 4.7'
+
+gem 'devise-guests', '~> 0.7.0'
