@@ -9,3 +9,21 @@
 Vocabulary.create(word: 'javascript')
 Vocabulary.create(word: 'internet')
 Vocabulary.create(word: 'refactoring')
+
+u1 = User.create(email: 'one@example.com', password: 'asecret', password_confirmation: 'asecret')
+u2 = User.create(email: 'two@example.com', password: 'asecret', password_confirmation: 'asecret')
+
+# game in lobby mode, waiting for second user
+Game.start(user: u1)
+
+# game in progress
+g = Game.start(user: u1)
+g.join(u2)
+g.update(word: 'internet', mask: '_n___n__')
+
+# game finished
+g = Game.start(user: u1)
+g.join(u2)
+g.update(word: 'abba', mask: '____')
+g.guess('a')
+g.guess('b')

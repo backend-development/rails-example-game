@@ -4,7 +4,9 @@ class GamesController < ApplicationController
   # GET /games
   # GET /games.json
   def index
-    @games = Game.all
+    @available_games = Game.available
+    @running_games = Game.running
+    @over_games = Game.over
   end
 
   # GET /games/1
@@ -15,6 +17,6 @@ class GamesController < ApplicationController
 
   # Use callbacks to share common setup or constraints between actions.
   def set_game
-    @game = Game.find(params[:id])
+    @game = Game.includes(:players).find(params[:id])
   end
 end

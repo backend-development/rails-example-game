@@ -98,6 +98,8 @@ even before signing in:
 
 ## game, game_state and the gem "acts as state machine" aasm
 
+See https://github.com/aasm/aasm
+
     bundle add aasm
     rails g scaffold game game_state word closed_at:timestamp
 
@@ -158,5 +160,31 @@ implement the game logic using TDD, starting with these tests:
       assert_operator g.closed_at.to_i, :<=, Time.now.to_i
     end  
 
+## display game state
 
+create a view to display the game:
+
+    <div class="layout">
+      <div class="player white <%= if @game.waiting_for_white? then 'current' end %>  <%= if @game.white_won? then 'winner' end %>">
+        <% if @game.players.count > 0 %>
+          <h2>Player White <%= if @game.white_won? then 'has won' end %></h2>
+          <p><%= @game.white_player.no_of_guesses %> guesses, 
+          <%= @game.white_player.no_of_fails %> fails.</p>
+        <% end %>
+      </div>
+
+      <div class="board">
+        <%= @game.mask %>
+      </div>
+
+      <div class="player black <%= if @game.waiting_for_black? then 'current' end %> <%= if @game.black_won? then 'winner' end %>">
+        <% if @game.players.count > 1 %>
+          <h2>Player Black <%= if @game.black_won? then 'has won' end %></h2>
+          <p><%= @game.black_player.no_of_guesses %> guesses, 
+          <%= @game.black_player.no_of_fails %> fails.</p>
+        <% else %>
+          <h2>Waiting for second player</h2>
+        <% end %>
+      </div>  
+    </div>
 

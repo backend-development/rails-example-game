@@ -28,6 +28,8 @@ ActiveRecord::Schema.define(version: 2020_05_12_194025) do
     t.string "color"
     t.bigint "user_id"
     t.bigint "game_id"
+    t.integer "no_of_guesses", default: 0, null: false
+    t.integer "no_of_fails", default: 0, null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["game_id"], name: "index_players_on_game_id"

@@ -1,5 +1,10 @@
 class Game < ApplicationRecord
   has_many :players
+
+  scope :available, -> { where(game_state: 'lobby') }
+  scope :running, -> { where(game_state: %w[waiting_for_white waiting_for_black]) }
+  scope :over, -> { where(game_state: %w[white_won black_won]) }
+
   include AASM
 
   aasm column: :game_state do
@@ -40,6 +45,7 @@ class Game < ApplicationRecord
   end
 
   def guess(letter)
+    current_player.inc_guesses
     if word.include?(letter)
       (0...word.length).each do |i|
         mask[i] = letter if word[i] == letter
@@ -51,7 +57,24 @@ class Game < ApplicationRecord
       end
       # do not change state, player can go again!
     else
+      current_player.inc_fails
       next_player
     end
+    save
+  end
+
+  def white_player
+    players.find_by(color: 'white')
+  end
+
+  def black_player
+    players.find_by(color: 'black')
+  end
+
+  def current_player
+    return black_player if waiting_for_black?
+    return white_player if waiting_for_white?
+
+    nil
   end
 end

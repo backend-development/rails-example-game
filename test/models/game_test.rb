@@ -29,20 +29,31 @@ class GameTest < ActiveSupport::TestCase
     g.join(u2)
     g.update(word: 'abba', mask: '____')
 
+    assert_equal g.black_player.no_of_guesses, 0
+    assert_equal g.black_player.no_of_fails, 0
+    assert_equal g.white_player.no_of_guesses, 0
+    assert_equal g.white_player.no_of_fails, 0
+
     g.guess('x')
 
+    assert_equal g.black_player.no_of_guesses, 1
+    assert_equal g.black_player.no_of_fails, 1
     assert_equal g.mask, '____'
     assert_nil g.closed_at
     assert g.waiting_for_white?
 
     g.guess('a')
 
+    assert_equal g.white_player.no_of_guesses, 1
+    assert_equal g.white_player.no_of_fails, 0
     assert_equal g.mask, 'a__a'
     assert_nil g.closed_at
     assert g.waiting_for_white?
 
     g.guess('b')
 
+    assert_equal g.white_player.no_of_guesses, 2
+    assert_equal g.white_player.no_of_fails, 0
     assert_equal g.mask, 'abba'
     assert g.white_won?
     refute_nil g.closed_at
