@@ -1,7 +1,7 @@
 
 <p>
-  <% if current_user == @game.white_player.user %>I am the white player
-  <% elsif current_user == @game.black_player.user %>I am the black player
+  <% if current_user == @game&.white_player&.user %>I am the white player
+  <% elsif current_user == @game&.black_player&.user %>I am the black player
   <% else %>I am just a visitor
   <% end %>
 </p>
