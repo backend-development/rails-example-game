@@ -1,11 +1,11 @@
 class GameChannel < ApplicationCable::Channel
   def subscribed
     stream_for game
-    if current_user.present? then
-      Rails.logger.warn("user #{current_user} subscribed GameChannel #{game.id} ")
+    if current_user.present?
+      Rails.logger.warn("User #{current_user} subscribed to GameChannel #{game.id} ")
       broadcast_state
     else
-      Rails.logger.warn("a guest has subscribed to GameChannesl #{game.id}")
+      Rails.logger.warn("A guest has subscribed to GameChannel #{game.id}")
     end
   end
 
@@ -18,7 +18,7 @@ class GameChannel < ApplicationCable::Channel
       game.join(current_user)
       broadcast_state
     end
-    if data['guess'].present? && current_user.id == game.current_player.user_id then
+    if data['guess'].present? && current_user.id == game.current_player.user_id
       game.guess(data['guess'])
       broadcast_state
     end
@@ -29,7 +29,7 @@ class GameChannel < ApplicationCable::Channel
   end
 
   def broadcast_state
-    board = ApplicationController.render( partial: 'games/game', locals: {game: game, current_user: current_user })
+    board = ApplicationController.render(partial: 'games/game', locals: { game: game, current_user: current_user })
     GameChannel.broadcast_to game, board: board, game_state: game.game_state
   end
 end

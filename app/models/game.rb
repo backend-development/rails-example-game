@@ -43,7 +43,6 @@ class Game < ApplicationRecord
     update(game_state: 'waiting_for_black')
     save
   end
-  
 
   def guess(letter)
     current_player.inc_guesses

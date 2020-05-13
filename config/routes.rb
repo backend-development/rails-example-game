@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   mount ActionCable.server => '/cable'
-    
+
   resources :games
   devise_for :users
   devise_scope :user do
@@ -10,6 +10,6 @@ Rails.application.routes.draw do
 
   # dokku deploy checks http://dokku.viewdocs.io/dokku/deployment/zero-downtime-deploys/
   get '/check.txt', to: proc { [200, {}, ['simple_check']] }
-  
+
   root to: 'games#index'
 end

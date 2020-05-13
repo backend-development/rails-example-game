@@ -13,14 +13,13 @@ class GamesController < ApplicationController
   # GET /games/1.json
   def show; end
 
-
-  def create 
+  def create
     if current_user
       g = Game.start(user: current_user)
       redirect_to game_path(g)
     else
       redirect_to root_path
-    end 
+    end
   end
 
   private
