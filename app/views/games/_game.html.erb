@@ -5,19 +5,21 @@
 >
   <div class="player white <%= if game.waiting_for_white? then 'current' end %>  <%= if game.white_won? then 'winner' end %>">
     <% if game.players.count > 0 %>
-      <h2>Player White <%= if game.white_won? then 'has won' end %></h2>
+      <h2>User <%= game.white_player.user_id %> is Player White <%= if game.white_won? then 'has won' end %></h2>
       <p><%= game.white_player.no_of_guesses %> guesses, 
       <%= game.white_player.no_of_fails %> fails.</p>
     <% end %>
   </div>
 
   <div class="board">
-    <%= game.mask %>
+  <h2>Game <%= game.id %></h2> 
+  <p>since <%= time_ago_in_words game.created_at %></p>
+  <kbd><%= game.mask %></kbd>
   </div>
 
   <div class="player black <%= if game.waiting_for_black? then 'current' end %> <%= if game.black_won? then 'winner' end %>">
     <% if game.players.count > 1 %>
-      <h2>Player Black <%= if game.black_won? then 'has won' end %></h2>
+      <h2>User <%= game.black_player.user_id %> Player Black <%= if game.black_won? then 'has won' end %></h2>
       <p><%= game.black_player.no_of_guesses %> guesses, 
       <%= game.black_player.no_of_fails %> fails.</p>
     <% else %>

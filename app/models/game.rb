@@ -39,9 +39,9 @@ class Game < ApplicationRecord
   end
 
   def join(user_black)
-    players.create(color: 'black', user: user_black)
+    players.create!(color: 'black', user: user_black)
     update(game_state: 'waiting_for_black')
-    save
+    save!
   end
 
   def guess(letter)
@@ -63,6 +63,16 @@ class Game < ApplicationRecord
     save
   end
 
+  def is_player?( u )  
+    players.where( user_id: u.id ).count.positive?
+  end
+
+  def is_winner?( u )
+    white_player.user_id == u.id  if game_state == 'white_won'
+    black_player.user_id == u.id  if game_state == 'black_won'
+    return false    
+  end  
+
   def white_player
     players.find_by(color: 'white')
   end
@@ -71,10 +81,11 @@ class Game < ApplicationRecord
     players.find_by(color: 'black')
   end
 
+  
+
   def current_player
     return black_player if waiting_for_black?
     return white_player if waiting_for_white?
-
     nil
   end
 end

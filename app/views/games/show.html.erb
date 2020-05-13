@@ -1,8 +1,7 @@
 
 <p>
-  <% if current_user == @game&.white_player&.user %>I am the white player
-  <% elsif current_user == @game&.black_player&.user %>I am the black player
-  <% else %>I am just a visitor
+  <% if signed_in? %>I am user <%= current_user.id %>
+  <% else %>I am just a guest
   <% end %>
 </p>
 <div id="container"
@@ -11,10 +10,8 @@
   <%= render partial: 'game', locals: {game: @game} %>
 </div>
 
-<% if @game.players.count == 1 %>
-  <% if user_signed_in? %>
-    <button id="join" data-user-id="<%= current_user.id %>">Join this Game</button>
-  <% end %>
+<% if @game.players.count == 1  &&  user_signed_in? && ! @game.is_player?(current_user) %>
+  <button id="join" data-user-id="<%= current_user.id %>">Join this Game</button>
 <% end %>
 
 <div id="letter" style="display:none;"></div>

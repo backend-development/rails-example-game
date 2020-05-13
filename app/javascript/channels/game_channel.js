@@ -1,48 +1,55 @@
-import consumer from "./consumer"
+import consumer from "./consumer";
 
-let gameChannel, userId, gameId, blackPlayerId, whitePlayerId;
+let gameDiv, gameChannel, userId, gameId, blackPlayerId, whitePlayerId;
 
 let containerDiv = document.getElementById('container');
 if( containerDiv ) {
   userId = containerDiv.dataset['userId'];
 }
 
-
-let gameDiv = document.getElementsByClassName('game');
-if( gameDiv.length > 0 ) {
-  gameId = gameDiv[0].dataset['gameId']
-  blackPlayerId = gameDiv[0].dataset['blackPlayerId'];
-  whitePlayerId = gameDiv[0].dataset['whitePlayerId'];
-
-  console.log("this is user", userId, "watching the game ", gameId, " between ", blackPlayerId, " and ", whitePlayerId);
-  gameChannel = consumer.subscriptions.create({
-    channel: "GameChannel",
-    game_id: gameId
-  }, {
-    connected() {
-      console.log("connected successfully");
-    },
-
-    disconnected() {
-      // Called when the subscription has been terminated by the server
-    },
-
-    received(data) {
-      console.log(data);
-      if( data['board'] ) {
-        containerDiv.innerHTML = data['board'];
-      }
-      if( (data['game_state'] == 'waiting_for_black') && (userId == blackPlayerId) ) { 
-        console.log("it is my turn, I am black");
-        letterInput.style.display = 'block';
-      }
-      if( (data['game_state'] == 'waiting_for_white') && (userId == whitePlayerId) ) {
-        console.log("it is my turn, I am white");
-        letterInput.style.display = 'block';
-      }      
-    }
-  });
+function read_from_game(){
+  gameDiv = document.getElementsByClassName('game');
+  if( gameDiv.length > 0 ) {
+    gameId = gameDiv[0].dataset['gameId']
+    blackPlayerId = gameDiv[0].dataset['blackPlayerId'];
+    whitePlayerId = gameDiv[0].dataset['whitePlayerId'];
+  
+    console.log("this is user", userId, "watching the game ", gameId, " between ", blackPlayerId, " and ", whitePlayerId);
+  }  
 }
+
+
+
+read_from_game();
+
+gameChannel = consumer.subscriptions.create({
+  channel: "GameChannel",
+  game_id: gameId
+}, {
+  connected() {
+    console.log("connected successfully");
+  },
+
+  disconnected() {
+    // Called when the subscription has been terminated by the server
+  },
+
+  received(data) {
+    console.log(data);
+    if( data['board'] ) {
+      containerDiv.innerHTML = data['board'];
+      read_from_game();
+    }
+    if( (data['game_state'] == 'waiting_for_black') && (userId == blackPlayerId) ) { 
+      console.log("it is my turn, I am black");
+      letterInput.style.display = 'block';
+    }
+    if( (data['game_state'] == 'waiting_for_white') && (userId == whitePlayerId) ) {
+      console.log("it is my turn, I am white");
+      letterInput.style.display = 'block';
+    }      
+  }
+});
 
 let letterInput = document.getElementById('letter');
 if(letterInput) {
@@ -65,11 +72,10 @@ if(letterInput) {
 
 let joinButton = document.getElementById('join');
 if( joinButton ) {
-  
-
   joinButton.addEventListener('click',function(){
     console.log("I want to join!", userId);
     gameChannel.send({ command: 'join' });
+    joinButton.style.display='none';
   });
 }
 
