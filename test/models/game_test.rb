@@ -6,7 +6,7 @@ class GameTest < ActiveSupport::TestCase
 
     g = Game.start(user: u)
     assert_equal g.players.count, 1
-    assert_equal g.players.find_by(color: 'white').user_id, u.id
+    assert_equal g.white_player.user_id, u.id
     assert g.lobby?
   end
 
@@ -17,7 +17,7 @@ class GameTest < ActiveSupport::TestCase
     g.join(u2)
 
     assert_equal g.players.count, 2
-    assert_equal g.players.find_by(color: 'black').user_id, u2.id
+    assert_equal g.black_player.user_id, u2.id
     assert_nil g.closed_at
     assert g.waiting_for_black?
   end
