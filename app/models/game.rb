@@ -10,12 +10,6 @@ class Game < ApplicationRecord
   aasm column: :game_state do
     state :lobby, initial: true
 
-    event :join do
-      transitions from: :lobby, to: :waiting_for_black, after: proc { |user_black|
-        players.create(color: 'black', user: user_black)
-      }
-    end
-
     state :waiting_for_black
     state :waiting_for_white
 
@@ -43,6 +37,13 @@ class Game < ApplicationRecord
     g.players.create(color: 'white', user: user)
     g
   end
+
+  def join(user_black)
+    players.create(color: 'black', user: user_black)
+    update(game_state: 'waiting_for_black')
+    save
+  end
+  
 
   def guess(letter)
     current_player.inc_guesses
