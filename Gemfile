@@ -27,6 +27,8 @@ gem 'bootsnap', '>= 1.4.2', require: false
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: %i[mri mingw x64_mingw]
+gem "launchy", "~> 2.5"
+
 end
 
 group :development do
@@ -51,3 +53,4 @@ gem 'devise', '~> 4.7'
 gem 'devise-guests', '~> 0.7.0'
 
 gem 'aasm', '~> 5.0'
+

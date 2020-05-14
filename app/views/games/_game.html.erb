@@ -19,7 +19,7 @@
 
   <div class="player black <%= if game.waiting_for_black? then 'current' end %> <%= if game.black_won? then 'winner' end %>">
     <% if game.players.count > 1 %>
-      <h2>User <%= game.black_player.user_id %> Player Black <%= if game.black_won? then 'has won' end %></h2>
+      <h2>User <%= game.black_player.user_id %> is Player Black <%= if game.black_won? then 'has won' end %></h2>
       <p><%= game.black_player.no_of_guesses %> guesses, 
       <%= game.black_player.no_of_fails %> fails.</p>
     <% else %>
