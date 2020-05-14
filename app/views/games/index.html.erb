@@ -9,7 +9,7 @@
 
 <% @available_games.each do |game| %>
   <%= link_to "Game #{game.id}", game_path(game) %>
-  <% if game.is_player?(current_or_guest_user) %> - you are a player in this game<% end %>
+  <% if game.player?(current_or_guest_user) %> - you are a player in this game<% end %>
   <br>
 <% end %>
 
@@ -19,7 +19,7 @@
 
 <% @running_games.each do |game| %>
   <%= link_to "Game #{game.id}", game_path(game) %>  
-  <% if game.is_player?(current_or_guest_user) %> - you are a player in this game<% end %>
+  <% if game.player?(current_or_guest_user) %> - you are a player in this game<% end %>
   <br>
 <% end %>
 
@@ -30,8 +30,8 @@
 
 <% @over_games.each do |game| %>
   <%= link_to "Game #{game.id}", game_path(game) %>
-  <% if game.is_player?(current_or_guest_user) %>
-    <% if game.is_winner?(current_or_guest_user) %>
+  <% if game.player?(current_or_guest_user) %>
+    <% if game.winner?(current_or_guest_user) %>
       you won this game.
     <% else %>
       you lost this game.

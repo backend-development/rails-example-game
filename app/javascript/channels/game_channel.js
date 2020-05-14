@@ -22,34 +22,37 @@ function read_from_game(){
 
 read_from_game();
 
-gameChannel = consumer.subscriptions.create({
-  channel: "GameChannel",
-  game_id: gameId
-}, {
-  connected() {
-    console.log("connected successfully");
-  },
+if( gameId ) {
 
-  disconnected() {
-    // Called when the subscription has been terminated by the server
-  },
+  gameChannel = consumer.subscriptions.create({
+    channel: "GameChannel",
+    game_id: gameId
+  }, {
+    connected() {
+      console.log("connected successfully");
+    },
 
-  received(data) {
-    console.log(data);
-    if( data['board'] ) {
-      containerDiv.innerHTML = data['board'];
-      read_from_game();
+    disconnected() {
+      // Called when the subscription has been terminated by the server
+    },
+
+    received(data) {
+      console.log(data);
+      if( data['board'] ) {
+        containerDiv.innerHTML = data['board'];
+        read_from_game();
+      }
+      if( (data['game_state'] == 'waiting_for_black') && (userId == blackPlayerId) ) { 
+        console.log("it is my turn, I am black");
+        letterInput.style.display = 'block';
+      }
+      if( (data['game_state'] == 'waiting_for_white') && (userId == whitePlayerId) ) {
+        console.log("it is my turn, I am white");
+        letterInput.style.display = 'block';
+      }      
     }
-    if( (data['game_state'] == 'waiting_for_black') && (userId == blackPlayerId) ) { 
-      console.log("it is my turn, I am black");
-      letterInput.style.display = 'block';
-    }
-    if( (data['game_state'] == 'waiting_for_white') && (userId == whitePlayerId) ) {
-      console.log("it is my turn, I am white");
-      letterInput.style.display = 'block';
-    }      
-  }
-});
+  });
+}
 
 let letterInput = document.getElementById('letter');
 if(letterInput) {

@@ -63,15 +63,15 @@ class Game < ApplicationRecord
     save
   end
 
-  def is_player?( u )  
-    players.where( user_id: u.id ).count.positive?
+  def player?(user)
+    players.where(user_id: user.id).count.positive?
   end
 
-  def is_winner?( u )
-    white_player.user_id == u.id  if game_state == 'white_won'
-    black_player.user_id == u.id  if game_state == 'black_won'
-    return false    
-  end  
+  def winner?(user)
+    white_player.user_id == user.id  if game_state == 'white_won'
+    black_player.user_id == user.id  if game_state == 'black_won'
+    false
+  end
 
   def white_player
     players.find_by(color: 'white')
@@ -81,11 +81,10 @@ class Game < ApplicationRecord
     players.find_by(color: 'black')
   end
 
-  
-
   def current_player
     return black_player if waiting_for_black?
     return white_player if waiting_for_white?
+
     nil
   end
 end

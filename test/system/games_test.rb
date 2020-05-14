@@ -7,45 +7,23 @@ class GamesTest < ApplicationSystemTestCase
 
   test 'visiting the index' do
     visit games_url
-    assert_selector 'h1', text: 'Games'
+    assert_selector 'h1', text: 'Word Guesser'
+    assert_selector 'h2', text: 'Available'
   end
 
-  test 'creating a Game' do
+  test 'creating a Game is not possible without login' do
     visit games_url
-    click_on 'New Game'
-
-    fill_in 'Black', with: @game.black
-    fill_in 'Closed at', with: @game.closed_at
-    fill_in 'Game state', with: @game.game_state
-    fill_in 'White', with: @game.white
-    fill_in 'Word', with: @game.word
-    click_on 'Create Game'
-
-    assert_text 'Game was successfully created'
-    click_on 'Back'
+    refute_content 'Start New Game'
   end
 
-  test 'updating a Game' do
+  test 'creating a Game is possible with login' do
+    visit new_user_session_path
+    fill_in 'Email', with: 'one@example.com'
+    fill_in 'Password', with: 'asecret'
+    click_on 'Log in'
     visit games_url
-    click_on 'Edit', match: :first
-
-    fill_in 'Black', with: @game.black
-    fill_in 'Closed at', with: @game.closed_at
-    fill_in 'Game state', with: @game.game_state
-    fill_in 'White', with: @game.white
-    fill_in 'Word', with: @game.word
-    click_on 'Update Game'
-
-    assert_text 'Game was successfully updated'
-    click_on 'Back'
-  end
-
-  test 'destroying a Game' do
-    visit games_url
-    page.accept_confirm do
-      click_on 'Destroy', match: :first
-    end
-
-    assert_text 'Game was successfully destroyed'
+    click_on 'Start New Game'
+    assert_content 'I am user'
+    assert_content 'Waiting for second player'
   end
 end
